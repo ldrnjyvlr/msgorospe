@@ -287,6 +287,86 @@
   transform: scale(1.1);
 }
 
+/* Mobile Service Cards */
+.service-card-mobile {
+  background-color: white;
+  transition: all 0.3s ease;
+  cursor: pointer;
+  border: none;
+  box-shadow: 0 4px 15px rgba(0, 0, 0, 0.1);
+  border-radius: 15px;
+}
+
+.service-card-mobile:hover {
+  transform: translateY(-8px);
+  box-shadow: 0 12px 30px rgba(255, 143, 163, 0.2);
+}
+
+.service-icon-mobile {
+  transition: all 0.3s ease;
+  color: white;
+}
+
+.service-card-mobile:hover .service-icon-mobile {
+  transform: scale(1.15);
+}
+
+/* Swiper Custom Styles */
+.services-swiper {
+  padding: 20px 0 60px 0;
+  overflow: visible;
+}
+
+.services-swiper .swiper-slide {
+  height: auto;
+}
+
+/* Custom Pagination Dots */
+.swiper-pagination-bullet-custom {
+  width: 12px !important;
+  height: 12px !important;
+  background: rgba(255, 143, 163, 0.3) !important;
+  opacity: 1 !important;
+  margin: 0 6px !important;
+  transition: all 0.3s ease !important;
+  border-radius: 50% !important;
+}
+
+.swiper-pagination-bullet-active-custom {
+  background: #FF8FA3 !important;
+  transform: scale(1.2) !important;
+  box-shadow: 0 0 10px rgba(255, 143, 163, 0.5) !important;
+}
+
+.swiper-pagination {
+  bottom: 20px !important;
+}
+
+/* Swiper Navigation Arrows (if needed) */
+.services-swiper .swiper-button-next,
+.services-swiper .swiper-button-prev {
+  color: #FF8FA3 !important;
+  background: white !important;
+  width: 40px !important;
+  height: 40px !important;
+  border-radius: 50% !important;
+  box-shadow: 0 4px 15px rgba(0, 0, 0, 0.1) !important;
+  transition: all 0.3s ease !important;
+}
+
+.services-swiper .swiper-button-next:hover,
+.services-swiper .swiper-button-prev:hover {
+  background: #FF8FA3 !important;
+  color: white !important;
+  transform: scale(1.1) !important;
+}
+
+.services-swiper .swiper-button-next::after,
+.services-swiper .swiper-button-prev::after {
+  font-size: 16px !important;
+  font-weight: bold !important;
+}
+
 /* Services Section Specific Styles */
 #services {
   background-color: #ffffff;
@@ -528,6 +608,31 @@ html {
     width: 80px !important;
     height: 80px !important;
   }
+  
+  /* Ensure desktop services are properly displayed */
+  .services-swiper {
+    display: none !important;
+  }
+  
+  /* Ensure desktop grid shows on medium screens and above */
+  .d-md-block {
+    display: block !important;
+  }
+
+  /* Desktop navbar buttons - horizontal layout */
+  .navbar-collapse .d-flex.flex-column {
+    flex-direction: row !important;
+    margin-top: 0;
+    width: auto;
+  }
+
+  .navbar-collapse .btn {
+    width: auto;
+    margin: 0 0.25rem;
+    padding: 0.375rem 0.75rem !important;
+    font-size: 0.875rem !important;
+    border-radius: 6px !important;
+  }
 }
 
 /* Medium screens (992px to 1199px) */
@@ -549,6 +654,30 @@ html {
   #services .service-icon {
     width: 70px !important;
     height: 70px !important;
+  }
+  
+  /* Ensure desktop grid is visible on medium screens */
+  .services-swiper {
+    display: none !important;
+  }
+  
+  .d-md-block {
+    display: block !important;
+  }
+
+  /* Medium screen navbar buttons - horizontal layout */
+  .navbar-collapse .d-flex.flex-column {
+    flex-direction: row !important;
+    margin-top: 0;
+    width: auto;
+  }
+
+  .navbar-collapse .btn {
+    width: auto;
+    margin: 0 0.25rem;
+    padding: 0.375rem 0.75rem !important;
+    font-size: 0.875rem !important;
+    border-radius: 6px !important;
   }
 }
 
@@ -576,6 +705,30 @@ html {
   #services .service-icon {
     width: 60px !important;
     height: 60px !important;
+  }
+  
+  /* Ensure desktop grid is visible on tablet screens */
+  .services-swiper {
+    display: none !important;
+  }
+  
+  .d-md-block {
+    display: block !important;
+  }
+
+  /* Tablet navbar buttons - horizontal layout */
+  .navbar-collapse .d-flex.flex-column {
+    flex-direction: row !important;
+    margin-top: 0;
+    width: auto;
+  }
+
+  .navbar-collapse .btn {
+    width: auto;
+    margin: 0 0.25rem;
+    padding: 0.375rem 0.75rem !important;
+    font-size: 0.875rem !important;
+    border-radius: 6px !important;
   }
   
   .navbar-brand img {
@@ -692,6 +845,25 @@ html {
     width: 50px !important;
     height: 50px !important;
     margin-bottom: 0.8rem !important;
+  }
+  
+  /* Mobile Carousel Styles */
+  .services-swiper {
+    padding: 15px 0 50px 0;
+  }
+  
+  .service-card-mobile {
+    min-height: 220px;
+    padding: 1.5rem !important;
+  }
+  
+  .service-icon-mobile {
+    width: 75px !important;
+    height: 75px !important;
+  }
+  
+  .service-title-mobile {
+    font-size: 1rem !important;
   }
   
   .navbar-brand img {
@@ -860,6 +1032,32 @@ html {
   #services .service-icon svg {
     width: 18px !important;
     height: 18px !important;
+  }
+  
+  /* Extra Small Mobile Carousel Styles */
+  .services-swiper {
+    padding: 10px 0 40px 0;
+  }
+  
+  .service-card-mobile {
+    min-height: 200px;
+    padding: 1rem !important;
+    margin: 0 5px;
+  }
+  
+  .service-icon-mobile {
+    width: 65px !important;
+    height: 65px !important;
+  }
+  
+  .service-title-mobile {
+    font-size: 0.95rem !important;
+  }
+  
+  .swiper-pagination-bullet-custom {
+    width: 10px !important;
+    height: 10px !important;
+    margin: 0 4px !important;
   }
   
   .navbar {
@@ -1124,6 +1322,26 @@ html {
   #services .service-icon svg {
     width: 20px !important;
     height: 20px !important;
+  }
+  
+  /* Small Mobile Carousel Styles */
+  .services-swiper {
+    padding: 12px 0 45px 0;
+  }
+  
+  .service-card-mobile {
+    min-height: 210px;
+    padding: 1.25rem !important;
+    margin: 0 8px;
+  }
+  
+  .service-icon-mobile {
+    width: 70px !important;
+    height: 70px !important;
+  }
+  
+  .service-title-mobile {
+    font-size: 1rem !important;
   }
   
   .navbar {
@@ -1423,6 +1641,21 @@ html {
     border-top: 1px solid rgba(255, 143, 163, 0.1);
     animation: slideDown 0.3s ease;
   }
+
+  /* Mobile navbar buttons layout */
+  .navbar-collapse .d-flex.flex-column {
+    margin-top: 1rem;
+    width: 100%;
+  }
+
+  .navbar-collapse .btn {
+    width: 100%;
+    margin: 0.25rem 0;
+    padding: 0.75rem 1rem !important;
+    font-size: 1rem !important;
+    border-radius: 25px !important;
+    font-weight: 500;
+  }
   
   .navbar-nav .nav-link {
     font-size: 1.2rem;
@@ -1624,4 +1857,117 @@ html {
 @keyframes popInModal {
   from { transform: scale(0.95); opacity: 0; }
   to { transform: scale(1); opacity: 1; }
+}
+
+/* Login Modal Styles */
+.login-modal-content {
+  background: #fff;
+  border-radius: 15px;
+  max-width: 450px;
+  width: 90%;
+  box-shadow: 0 10px 30px rgba(0,0,0,0.2);
+  padding: 2.5rem 2rem;
+  position: relative;
+  animation: popInModal 0.3s ease;
+}
+
+.login-modal-content .form-control {
+  border: 2px solid #f0f0f0;
+  border-radius: 8px;
+  padding: 12px;
+  transition: all 0.3s ease;
+}
+
+.login-modal-content .form-control:focus {
+  border-color: #FF8FA3;
+  box-shadow: 0 0 0 0.2rem rgba(255, 143, 163, 0.25);
+}
+
+.login-modal-content .btn-primary {
+  background: linear-gradient(135deg, #FF8FA3 0%, #FFB3BA 100%);
+  border: none;
+  border-radius: 8px;
+  padding: 12px;
+  font-weight: 600;
+  transition: all 0.3s ease;
+}
+
+.login-modal-content .btn-primary:hover {
+  background: linear-gradient(135deg, #FF7A94 0%, #FFA8B5 100%);
+  transform: translateY(-2px);
+  box-shadow: 0 5px 15px rgba(255, 143, 163, 0.3);
+}
+
+.login-modal-content .btn-primary:disabled {
+  background: #ccc;
+  transform: none;
+  box-shadow: none;
+}
+
+.login-modal-content .input-group .btn-outline-secondary {
+  border: 2px solid #f0f0f0;
+  border-left: none;
+  border-radius: 0 8px 8px 0;
+  padding: 12px;
+  transition: all 0.3s ease;
+}
+
+.login-modal-content .input-group .btn-outline-secondary:hover {
+  background-color: #FF8FA3;
+  border-color: #FF8FA3;
+  color: white;
+}
+
+.login-modal-content .form-check-input:checked {
+  background-color: #FF8FA3;
+  border-color: #FF8FA3;
+}
+
+.login-modal-content .text-primary {
+  color: #FF8FA3 !important;
+}
+
+.login-modal-content .alert {
+  border-radius: 8px;
+  border: none;
+  background-color: #f8d7da;
+  color: #721c24;
+}
+
+.login-modal-content .btn-link {
+  color: #FF8FA3;
+  text-decoration: none;
+  background: none;
+  border: none;
+  padding: 0;
+  font: inherit;
+  cursor: pointer;
+  transition: color 0.3s ease;
+}
+
+.login-modal-content .btn-link:hover {
+  color: #FF7A94;
+  text-decoration: underline;
+}
+
+/* Mobile responsive adjustments for login modal */
+@media (max-width: 576px) {
+  .login-modal-content {
+    max-width: 95%;
+    padding: 2rem 1.5rem;
+    margin: 1rem;
+  }
+  
+  .login-modal-content h4 {
+    font-size: 1.3rem;
+  }
+  
+  .login-modal-content .form-control {
+    padding: 10px;
+  }
+  
+  .login-modal-content .btn-primary {
+    padding: 10px;
+    font-size: 0.9rem;
+  }
 }
