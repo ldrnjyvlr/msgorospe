@@ -439,46 +439,19 @@ const Dashboard = ({ userRole, user }) => {
       }
 
       if (patientId) {
-        // Still fetch test data but only count them, don't store sensitive info
-        const [psychData, neuroData, neuroPsychData] = await Promise.all([
-          supabase
-            .from('psychological_tests')
-            .select('id, created_at')
-            .eq('patient_id', patientId)
-            .order('created_at', { ascending: false }),
-          supabase
-            .from('neuropsychiatric_tests')
-            .select('id, created_at')
-            .eq('patient_id', patientId)
-            .order('created_at', { ascending: false }),
-          supabase
-            .from('neuropsychological_tests')
-            .select('id, created_at')
-            .eq('patient_id', patientId)
-            .order('created_at', { ascending: false })
-        ]);
-
-        const testData = {
-          psychological: psychData.data || [],
-          neuropsychiatric: neuroData.data || [],
-          neuropsychological: neuroPsychData.data || []
-        };
-
-        setPatientTests(testData);
-
-        // Calculate basic statistics without sensitive data
-        const totalTests = testData.psychological.length + testData.neuropsychiatric.length + testData.neuropsychological.length;
-        const lastTestDate = totalTests > 0 ? Math.max(
-          ...testData.psychological.map(t => new Date(t.created_at).getTime()),
-          ...testData.neuropsychiatric.map(t => new Date(t.created_at).getTime()),
-          ...testData.neuropsychological.map(t => new Date(t.created_at).getTime())
-        ) : null;
+        // No longer fetch test data for patient dashboard
+        // Patients don't need to see test results or statistics
+        setPatientTests({
+          psychological: [],
+          neuropsychiatric: [],
+          neuropsychological: []
+        });
 
         setPatientStats({
-          totalTests,
-          latestIQ: null, // Hide IQ scores
+          totalTests: 0,
+          latestIQ: null,
           progressTrend: 'stable',
-          lastTestDate: lastTestDate ? new Date(lastTestDate) : null,
+          lastTestDate: null,
           nextAppointment: null
         });
       } else {
@@ -1592,15 +1565,27 @@ const Dashboard = ({ userRole, user }) => {
           color: #a0aec0;
         }
         
-        /* Responsive Design */
-        @media (max-width: 768px) {
+        /* Mobile-First Responsive Design */
+        
+        /* Mobile styles (320px - 767px) */
+        @media (max-width: 767px) {
+          .dashboard-container {
+            padding: 1rem;
+          }
+          
           .modern-count {
-            font-size: 2rem;
+            font-size: 1.8rem;
           }
           
           .modern-icon {
-            width: 3rem;
-            height: 3rem;
+            width: 2.5rem;
+            height: 2.5rem;
+            font-size: 1rem;
+          }
+          
+          .stat-card {
+            padding: 1rem;
+            margin-bottom: 1rem;
           }
           
           .patient-info {
@@ -1610,7 +1595,149 @@ const Dashboard = ({ userRole, user }) => {
           }
           
           .activity-bar {
+            width: 16px;
+          }
+          
+          .activity-chart-container {
+            padding: 0.5rem 0;
+          }
+          
+          .modern-action-btn {
+            padding: 0.75rem 1rem;
+            font-size: 0.9rem;
+          }
+          
+          .modern-table {
+            font-size: 0.85rem;
+          }
+          
+          .modern-th,
+          .modern-td {
+            padding: 0.75rem 0.5rem;
+          }
+          
+          .patient-header-card {
+            padding: 1.5rem;
+          }
+          
+          .patient-avatar {
+            width: 60px;
+            height: 60px;
+          }
+          
+          .avatar-icon {
+            font-size: 1.5rem;
+          }
+          
+          .patient-basic-info h2 {
+            font-size: 1.5rem;
+          }
+          
+          .info-card .card-body {
+            padding: 1rem;
+          }
+          
+          .info-item {
+            padding: 0.5rem 0;
+            flex-direction: column;
+            align-items: flex-start;
+            gap: 0.25rem;
+          }
+          
+          .info-value {
+            text-align: left;
+            max-width: 100%;
+          }
+          
+          .action-btn {
+            padding: 0.875rem;
+            font-size: 0.9rem;
+            margin-bottom: 0.5rem;
+          }
+        }
+        
+        /* Small mobile devices (480px - 767px) */
+        @media (min-width: 480px) and (max-width: 767px) {
+          .modern-count {
+            font-size: 2rem;
+          }
+          
+          .modern-icon {
+            width: 3rem;
+            height: 3rem;
+            font-size: 1.1rem;
+          }
+          
+          .stat-card {
+            padding: 1.25rem;
+          }
+          
+          .activity-bar {
+            width: 18px;
+          }
+          
+          .patient-header-card {
+            padding: 2rem;
+          }
+          
+          .patient-avatar {
+            width: 70px;
+            height: 70px;
+          }
+          
+          .avatar-icon {
+            font-size: 1.75rem;
+          }
+        }
+        
+        /* Tablet styles (768px - 1023px) */
+        @media (min-width: 768px) and (max-width: 1023px) {
+          .modern-count {
+            font-size: 2.2rem;
+          }
+          
+          .modern-icon {
+            width: 3.25rem;
+            height: 3.25rem;
+          }
+          
+          .activity-bar {
             width: 20px;
+          }
+          
+          .modern-table {
+            font-size: 0.9rem;
+          }
+          
+          .modern-th,
+          .modern-td {
+            padding: 1rem 1.25rem;
+          }
+        }
+        
+        /* Desktop styles (1024px and up) */
+        @media (min-width: 1024px) {
+          .modern-count {
+            font-size: 2.5rem;
+          }
+          
+          .modern-icon {
+            width: 3.5rem;
+            height: 3.5rem;
+            font-size: 1.25rem;
+          }
+          
+          .activity-bar {
+            width: 24px;
+          }
+          
+          .modern-table {
+            font-size: 1rem;
+          }
+          
+          .modern-th,
+          .modern-td {
+            padding: 1rem 1.5rem;
           }
         }
         

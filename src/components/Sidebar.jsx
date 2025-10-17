@@ -60,11 +60,6 @@ const Sidebar = ({ userRole }) => {
 
   return (
     <div className="sidebar" style={{
-      position: 'fixed',
-      top: '60px',
-      left: '0',
-      width: '250px',
-      height: 'calc(100vh - 60px)',
       background: 'linear-gradient(180deg, #ff9a9e 0%, #fecfef 50%, #ff9068 100%)',
       borderRight: 'none',
       padding: '2rem 0',

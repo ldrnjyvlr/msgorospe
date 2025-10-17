@@ -202,6 +202,23 @@ const Navbar = ({ user, userRole }) => {
   return (
     <nav className="navbar navbar-expand-lg navbar-light">
       <div className="container-fluid">
+        {/* Mobile menu toggle button */}
+        <button 
+          className="navbar-toggler d-lg-none" 
+          type="button" 
+          onClick={() => {
+            const sidebar = document.querySelector('.sidebar');
+            const overlay = document.querySelector('.sidebar-overlay');
+            if (sidebar && overlay) {
+              sidebar.classList.toggle('active');
+              overlay.classList.toggle('active');
+            }
+          }}
+          aria-label="Toggle navigation"
+        >
+          <span className="navbar-toggler-icon"></span>
+        </button>
+        
         <Link className="navbar-brand d-flex align-items-center" to="/">
           <img src={logo} alt="MS GOROSPE Logo" className="me-2" style={{ height: '40px' }} />
           <span className="font-weight-bold" style={{ color: '#ff6b6b', fontWeight: '700' }}>MS GOROSPE</span>
@@ -229,7 +246,7 @@ const Navbar = ({ user, userRole }) => {
               <div 
                 className="position-absolute end-0 mt-2 py-2 bg-white rounded shadow-sm"
                 style={{ 
-                  width: '320px', 
+                  width: window.innerWidth < 768 ? '280px' : '320px', 
                   zIndex: 1000,
                   border: '1px solid #e0e0e0',
                   maxHeight: '400px',
@@ -383,6 +400,16 @@ const Navbar = ({ user, userRole }) => {
           }}
         />
       )}
+      
+      {/* Sidebar overlay for mobile */}
+      <div className="sidebar-overlay" onClick={() => {
+        const sidebar = document.querySelector('.sidebar');
+        const overlay = document.querySelector('.sidebar-overlay');
+        if (sidebar && overlay) {
+          sidebar.classList.remove('active');
+          overlay.classList.remove('active');
+        }
+      }}></div>
     </nav>
   );
 

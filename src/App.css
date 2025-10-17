@@ -136,11 +136,182 @@
   user-select: none;
 }
 
-/* Responsive design */
-@media (max-width: 768px) {
+/* Mobile-First Responsive Design */
+
+/* Base mobile styles (320px and up) */
+.sidebar {
+  position: fixed;
+  top: 60px;
+  left: -250px; /* Hidden by default on mobile */
+  width: 250px;
+  height: calc(100vh - 60px);
+  background-color: #f8f9fa;
+  border-right: 1px solid #dee2e6;
+  padding: 1rem 0;
+  overflow-y: auto;
+  z-index: 1040;
+  transition: transform 0.3s ease;
+}
+
+.sidebar.active {
+  transform: translateX(250px); /* Slide in from left */
+}
+
+.main-content {
+  flex: 1;
+  padding: 1rem;
+  background-color: #f5f5f5;
+  min-height: calc(100vh - 60px);
+  width: 100%;
+  overflow-x: hidden;
+  overflow-y: auto;
+  margin-left: 0; /* No sidebar offset on mobile */
+}
+
+.navbar-toggler {
+  display: block;
+  border: none;
+  padding: 0.25rem 0.5rem;
+  background: transparent;
+  cursor: pointer;
+}
+
+.navbar-toggler:focus {
+  box-shadow: none;
+}
+
+.navbar-toggler-icon {
+  background-image: url("data:image/svg+xml,%3csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 30 30'%3e%3cpath stroke='rgba%2833, 37, 41, 0.75%29' stroke-linecap='round' stroke-miterlimit='10' stroke-width='2' d='M4 7h22M4 15h22M4 23h22'/%3e%3c/svg%3e");
+  width: 1.5em;
+  height: 1.5em;
+}
+
+/* Mobile overlay for sidebar */
+.sidebar-overlay {
+  position: fixed;
+  top: 0;
+  left: 0;
+  width: 100%;
+  height: 100%;
+  background-color: rgba(0, 0, 0, 0.5);
+  z-index: 1035;
+  opacity: 0;
+  visibility: hidden;
+  transition: all 0.3s ease;
+}
+
+.sidebar-overlay.active {
+  opacity: 1;
+  visibility: visible;
+}
+
+/* Touch-friendly button sizes */
+.btn {
+  min-height: 44px;
+  min-width: 44px;
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  padding: 0.5rem 1rem;
+  font-size: 1rem;
+  border-radius: 0.5rem;
+  transition: all 0.2s ease;
+}
+
+.btn:hover {
+  transform: translateY(-1px);
+  box-shadow: 0 4px 12px rgba(0, 0, 0, 0.15);
+}
+
+/* Form controls mobile optimization */
+.form-control,
+.form-select {
+  min-height: 44px;
+  padding: 0.75rem;
+  font-size: 16px; /* Prevents zoom on iOS */
+  border-radius: 0.5rem;
+  border: 2px solid #e9ecef;
+  transition: all 0.2s ease;
+}
+
+.form-control:focus,
+.form-select:focus {
+  border-color: #7e3f98;
+  box-shadow: 0 0 0 0.2rem rgba(126, 63, 152, 0.25);
+  transform: none;
+}
+
+/* Card responsive adjustments */
+.card {
+  border-radius: 1rem;
+  box-shadow: 0 2px 8px rgba(0, 0, 0, 0.1);
+  margin-bottom: 1.5rem;
+  overflow: hidden;
+}
+
+.card-body {
+  padding: 1.5rem;
+}
+
+/* Table responsive wrapper */
+.table-responsive {
+  border-radius: 0.5rem;
+  overflow-x: auto;
+  -webkit-overflow-scrolling: touch;
+}
+
+.table {
+  margin-bottom: 0;
+  white-space: nowrap;
+}
+
+/* Navigation improvements */
+.navbar {
+  padding: 0.75rem 1rem;
+  min-height: 60px;
+}
+
+.navbar-brand {
+  font-size: 1.25rem;
+}
+
+.navbar-nav .nav-link {
+  padding: 0.75rem 1rem;
+  font-size: 1rem;
+  min-height: 44px;
+  display: flex;
+  align-items: center;
+}
+
+/* Small mobile devices (480px and up) */
+@media (min-width: 480px) {
+  .main-content {
+    padding: 1.25rem;
+  }
+  
+  .card-body {
+    padding: 1.75rem;
+  }
+  
+  .btn {
+    padding: 0.625rem 1.25rem;
+  }
+}
+
+/* Tablet portrait (768px and up) */
+@media (min-width: 768px) {
   .sidebar {
-    transform: translateX(-100%);
-    transition: transform 0.3s ease;
+    position: fixed;
+    top: 60px;
+    left: 0;
+    transform: translateX(0);
+    width: 250px;
+    height: calc(100vh - 60px);
+    background-color: #f8f9fa;
+    border-right: 1px solid #dee2e6;
+    padding: 1rem 0;
+    overflow-y: auto;
+    z-index: 1040;
   }
   
   .sidebar.active {
@@ -148,11 +319,55 @@
   }
   
   .main-content {
-    margin-left: 0;
+    margin-left: 250px;
+    width: calc(100% - 250px);
+    padding: 2rem;
   }
   
   .navbar-toggler {
-    display: block;
+    display: none;
+  }
+  
+  .sidebar-overlay {
+    display: none;
+  }
+  
+  .card-body {
+    padding: 2rem;
+  }
+  
+  .btn {
+    padding: 0.75rem 1.5rem;
+  }
+}
+
+/* Desktop (1024px and up) */
+@media (min-width: 1024px) {
+  .main-content {
+    padding: 2.5rem;
+  }
+  
+  .card-body {
+    padding: 2.5rem;
+  }
+  
+  .btn {
+    padding: 0.875rem 2rem;
+  }
+  
+  .table {
+    white-space: normal;
+  }
+}
+
+/* Large desktop (1200px and up) */
+@media (min-width: 1200px) {
+  .container {
+    max-width: 1140px;
+  }
+  
+  .main-content {
+    padding: 3rem;
   }
 }
 
@@ -441,6 +656,7 @@ body {
   min-height: 100vh;
   background-color: #f5f5f5;
   padding: 20px;
+  overflow-x: hidden;
 }
 
 .auth-card {
@@ -449,6 +665,604 @@ body {
   border-radius: 10px;
   overflow: hidden;
   box-shadow: 0 10px 30px rgba(0, 0, 0, 0.1);
+  background-color: white;
+}
+
+/* Input group styling for all screen sizes */
+.auth-card .input-group {
+  border-radius: 8px;
+  overflow: hidden;
+  border: 2px solid #e9ecef;
+  transition: all 0.2s ease;
+}
+
+.auth-card .input-group .form-control {
+  border: none;
+  border-radius: 0;
+  box-shadow: none;
+  background-color: transparent;
+}
+
+.auth-card .input-group .form-control:focus {
+  border: none;
+  box-shadow: none;
+  background-color: transparent;
+}
+
+.auth-card .input-group .input-group-text {
+  border: none;
+  border-radius: 0;
+  background-color: #f8f9fa;
+  color: #6c757d;
+  transition: all 0.2s ease;
+}
+
+.auth-card .input-group .btn {
+  border: none;
+  border-radius: 0;
+  background-color: #f8f9fa;
+  color: #6c757d;
+  transition: all 0.2s ease;
+}
+
+.auth-card .input-group .btn:hover {
+  background-color: #e9ecef;
+  color: #495057;
+}
+
+.auth-card .input-group .input-group-text:hover {
+  background-color: #e9ecef;
+  color: #495057;
+}
+
+.auth-card .input-group:focus-within {
+  border-color: #7e3f98;
+  box-shadow: 0 0 0 0.2rem rgba(126, 63, 152, 0.25);
+}
+
+.auth-card .input-group:focus-within .input-group-text {
+  border-color: #7e3f98;
+  background-color: #fff;
+  color: #7e3f98;
+}
+
+/* Mobile-first responsive design for auth pages */
+@media (max-width: 767px) {
+  .auth-container {
+    padding: 10px;
+    min-height: 100vh;
+    justify-content: flex-start;
+    padding-top: 20px;
+  }
+  
+  .auth-card {
+    max-width: 100%;
+    margin: 0;
+    border-radius: 8px;
+    box-shadow: 0 4px 20px rgba(0, 0, 0, 0.08);
+  }
+  
+  /* Optimize logo and branding section for mobile */
+  .auth-card .text-center.p-4.border-bottom {
+    padding: 1.5rem 1rem !important;
+  }
+  
+  .auth-card .text-center.p-4.border-bottom img {
+    height: 60px !important;
+    max-width: 60px;
+    width: auto;
+  }
+  
+  .auth-card .text-center.p-4.border-bottom h2 {
+    font-size: 1.5rem !important;
+    margin-top: 0.75rem !important;
+    margin-bottom: 0.25rem !important;
+  }
+  
+  .auth-card .text-center.p-4.border-bottom p {
+    font-size: 0.85rem !important;
+    margin-bottom: 0 !important;
+  }
+  
+  /* Optimize form section */
+  .auth-card .p-4 {
+    padding: 1.25rem 1rem !important;
+  }
+  
+  .auth-card .p-4 h4 {
+    font-size: 1.25rem !important;
+    margin-bottom: 1.25rem !important;
+  }
+  
+  /* Form controls optimization */
+  .auth-card .form-label {
+    font-size: 0.9rem;
+    margin-bottom: 0.4rem;
+  }
+  
+  .auth-card .form-control {
+    font-size: 16px; /* Prevents zoom on iOS */
+    padding: 0.75rem;
+    min-height: 44px;
+    border-radius: 8px;
+  }
+  
+  .auth-card .input-group .input-group-text {
+    padding: 0.75rem;
+    border-right: 0;
+    border-top-right-radius: 0;
+    border-bottom-right-radius: 0;
+    min-width: 50px;
+    justify-content: center;
+  }
+  
+  .auth-card .input-group .form-control {
+    border-left: 0;
+    border-right: 0;
+    border-top-left-radius: 0;
+    border-bottom-left-radius: 0;
+    border-top-right-radius: 0;
+    border-bottom-right-radius: 0;
+  }
+  
+  .auth-card .input-group .btn {
+    padding: 0.75rem 0.75rem;
+    border-left: 0;
+    border-top-left-radius: 0;
+    border-bottom-left-radius: 0;
+    min-width: 50px;
+    justify-content: center;
+  }
+  
+  .auth-card .input-group .btn:focus {
+    box-shadow: none;
+    border-color: #ced4da;
+  }
+  
+  /* Remember me and forgot password row - maintain horizontal layout on mobile */
+  .auth-card .d-flex.justify-content-between {
+    flex-direction: row;
+    align-items: center;
+    justify-content: space-between;
+    flex-wrap: wrap;
+    gap: 0.5rem;
+  }
+  
+  .auth-card .form-check {
+    margin-bottom: 0;
+    flex-shrink: 0;
+  }
+  
+  .auth-card .form-check-label {
+    font-size: 0.9rem;
+    white-space: nowrap;
+  }
+  
+  .auth-card a.text-decoration-none {
+    font-size: 0.85rem;
+    white-space: nowrap;
+    text-align: right;
+  }
+  
+  /* Terms and conditions checkbox styling for mobile */
+  .auth-card .form-check {
+    margin-bottom: 1rem;
+  }
+  
+  .auth-card .form-check-label {
+    font-size: 0.9rem;
+    line-height: 1.4;
+    word-wrap: break-word;
+    overflow-wrap: break-word;
+  }
+  
+  .auth-card .form-check-label a {
+    font-size: inherit;
+    text-decoration: underline;
+    color: #7e3f98;
+  }
+  
+  .auth-card .form-check-label a:hover {
+    color: #6b3580;
+    text-decoration: none;
+  }
+  
+  /* Login button */
+  .auth-card .btn-primary.w-100 {
+    padding: 0.875rem;
+    font-size: 1rem;
+    font-weight: 600;
+    border-radius: 8px;
+    margin-top: 1rem;
+  }
+  
+  /* Register link and back button */
+  .auth-card .mt-4.text-center {
+    margin-top: 1.5rem !important;
+    padding-top: 1rem;
+    border-top: 1px solid #e9ecef;
+  }
+  
+  .auth-card .mt-4.text-center p {
+    font-size: 0.9rem;
+    margin-bottom: 1rem;
+  }
+  
+  .auth-card .mt-3.text-center {
+    margin-top: 1rem !important;
+  }
+  
+  .auth-card .btn-secondary.btn-sm {
+    padding: 0.75rem 1.5rem;
+    font-size: 0.9rem;
+    border-radius: 8px;
+  }
+  
+  /* Alert messages */
+  .auth-card .alert {
+    padding: 0.875rem;
+    font-size: 0.9rem;
+    border-radius: 8px;
+    margin-bottom: 1rem;
+  }
+  
+  .auth-card .alert .d-flex {
+    align-items: flex-start;
+  }
+  
+  .auth-card .alert i {
+    margin-top: 0.125rem;
+  }
+}
+
+/* Extra small mobile devices (320px - 479px) */
+@media (max-width: 479px) {
+  .auth-container {
+    padding: 8px;
+    padding-top: 15px;
+  }
+  
+  .auth-card {
+    border-radius: 6px;
+  }
+  
+  .auth-card .text-center.p-4.border-bottom {
+    padding: 1rem 0.75rem !important;
+  }
+  
+  .auth-card .text-center.p-4.border-bottom img {
+    height: 50px !important;
+    max-width: 50px;
+  }
+  
+  .auth-card .text-center.p-4.border-bottom h2 {
+    font-size: 1.25rem !important;
+    margin-top: 0.5rem !important;
+  }
+  
+  .auth-card .text-center.p-4.border-bottom p {
+    font-size: 0.8rem !important;
+  }
+  
+  .auth-card .p-4 {
+    padding: 1rem 0.75rem !important;
+  }
+  
+  .auth-card .p-4 h4 {
+    font-size: 1.1rem !important;
+    margin-bottom: 1rem !important;
+  }
+  
+  .auth-card .form-label {
+    font-size: 0.85rem;
+  }
+  
+  .auth-card .form-control {
+    padding: 0.625rem;
+    font-size: 16px;
+  }
+  
+  .auth-card .btn-primary.w-100 {
+    padding: 0.75rem;
+    font-size: 0.95rem;
+  }
+  
+  .auth-card .mt-4.text-center p {
+    font-size: 0.85rem;
+  }
+  
+  .auth-card .btn-secondary.btn-sm {
+    padding: 0.625rem 1.25rem;
+    font-size: 0.85rem;
+  }
+  
+  .auth-card .alert {
+    padding: 0.75rem;
+    font-size: 0.85rem;
+  }
+  
+  /* Adjust remember me layout for very small screens */
+  .auth-card .d-flex.justify-content-between {
+    flex-direction: row;
+    justify-content: space-between;
+    align-items: center;
+    gap: 0.25rem;
+  }
+  
+  .auth-card .form-check-label {
+    font-size: 0.8rem;
+  }
+  
+  .auth-card a.text-decoration-none {
+    font-size: 0.75rem;
+  }
+}
+
+/* Small mobile devices (480px - 575px) */
+@media (min-width: 480px) and (max-width: 575px) {
+  .auth-container {
+    padding: 12px;
+    padding-top: 18px;
+  }
+  
+  .auth-card .text-center.p-4.border-bottom img {
+    height: 55px !important;
+    max-width: 55px;
+  }
+  
+  .auth-card .text-center.p-4.border-bottom h2 {
+    font-size: 1.35rem !important;
+  }
+  
+  .auth-card .text-center.p-4.border-bottom p {
+    font-size: 0.82rem !important;
+  }
+}
+
+/* Landscape orientation adjustments for mobile */
+@media (max-width: 767px) and (orientation: landscape) {
+  .auth-container {
+    padding-top: 10px;
+    justify-content: flex-start;
+  }
+  
+  .auth-card .text-center.p-4.border-bottom {
+    padding: 1rem 1rem !important;
+  }
+  
+  .auth-card .text-center.p-4.border-bottom img {
+    height: 45px !important;
+    max-width: 45px;
+  }
+  
+  .auth-card .text-center.p-4.border-bottom h2 {
+    font-size: 1.2rem !important;
+    margin-top: 0.5rem !important;
+  }
+  
+  .auth-card .text-center.p-4.border-bottom p {
+    font-size: 0.8rem !important;
+  }
+  
+  .auth-card .p-4 {
+    padding: 1rem 1rem !important;
+  }
+  
+  .auth-card .p-4 h4 {
+    font-size: 1.1rem !important;
+    margin-bottom: 1rem !important;
+  }
+  
+  .auth-card .btn-primary.w-100 {
+    padding: 0.75rem;
+    margin-top: 0.75rem;
+  }
+  
+  .auth-card .mt-4.text-center {
+    margin-top: 1rem !important;
+    padding-top: 0.75rem;
+  }
+  
+  .auth-card .mt-3.text-center {
+    margin-top: 0.75rem !important;
+  }
+}
+
+/* Global mobile optimizations to prevent horizontal scrolling */
+@media (max-width: 767px) {
+  /* Ensure body and html don't cause horizontal scroll */
+  body, html {
+    overflow-x: hidden;
+    width: 100%;
+    max-width: 100vw;
+  }
+  
+  /* Prevent any element from causing horizontal overflow */
+  * {
+    max-width: 100%;
+    box-sizing: border-box;
+  }
+  
+  /* Ensure auth container fits within viewport */
+  .auth-container {
+    max-width: 100vw;
+    width: 100%;
+    margin: 0;
+    padding-left: 8px;
+    padding-right: 8px;
+  }
+  
+  /* Ensure auth card fits within container */
+  .auth-card {
+    max-width: calc(100vw - 16px);
+    width: 100%;
+    margin: 0 auto;
+  }
+  
+  /* Prevent form controls from overflowing */
+  .auth-card .form-control,
+  .auth-card .input-group,
+  .auth-card .btn {
+    max-width: 100%;
+    box-sizing: border-box;
+  }
+  
+  /* Ensure text doesn't overflow */
+  .auth-card h2,
+  .auth-card h4,
+  .auth-card p,
+  .auth-card .form-label,
+  .auth-card .form-check-label {
+    word-wrap: break-word;
+    overflow-wrap: break-word;
+    hyphens: auto;
+  }
+  
+  /* Optimize input group for mobile */
+  .auth-card .input-group {
+    display: flex;
+    flex-wrap: nowrap;
+    border-radius: 8px;
+    overflow: hidden;
+  }
+  
+  .auth-card .input-group .input-group-text {
+    flex-shrink: 0;
+    min-width: 50px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    background-color: #f8f9fa;
+    border: none;
+    border-radius: 0;
+  }
+  
+  .auth-card .input-group .form-control {
+    flex: 1;
+    min-width: 0;
+    border-radius: 0;
+    border: none;
+    background-color: transparent;
+  }
+  
+  .auth-card .input-group .btn {
+    flex-shrink: 0;
+    min-width: 50px;
+    border-radius: 0;
+    border: none;
+    background-color: #f8f9fa;
+    color: #6c757d;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+  }
+  
+  .auth-card .input-group .btn:hover {
+    background-color: #e9ecef;
+    color: #495057;
+  }
+  
+  .auth-card .input-group .input-group-text:hover {
+    background-color: #e9ecef;
+    color: #495057;
+  }
+  
+  /* Ensure proper focus states */
+  .auth-card .input-group:focus-within {
+    border-color: #7e3f98;
+    box-shadow: 0 0 0 0.2rem rgba(126, 63, 152, 0.25);
+  }
+  
+  .auth-card .input-group:focus-within .form-control {
+    border: none;
+    box-shadow: none;
+  }
+  
+  .auth-card .input-group:focus-within .btn {
+    border: none;
+    box-shadow: none;
+  }
+  
+  .auth-card .input-group:focus-within .input-group-text {
+    background-color: #fff;
+    color: #7e3f98;
+    border: none;
+    box-shadow: none;
+  }
+  
+  /* Ensure buttons fit properly */
+  .auth-card .btn {
+    white-space: nowrap;
+    overflow: hidden;
+    text-overflow: ellipsis;
+  }
+  
+  /* Prevent logo from causing overflow */
+  .auth-card img {
+    max-width: 100%;
+    height: auto;
+    display: block;
+    margin: 0 auto;
+  }
+  
+  /* Fallback for extremely narrow screens - only stack if absolutely necessary */
+  @media (max-width: 320px) {
+    .auth-card .d-flex.justify-content-between {
+      flex-direction: column;
+      align-items: flex-start;
+      gap: 0.5rem;
+    }
+    
+    .auth-card a.text-decoration-none {
+      text-align: left;
+    }
+  }
+  
+  /* Modal responsive styles for register page */
+  .modal-dialog {
+    max-width: 95%;
+    margin: 1rem auto;
+  }
+  
+  .modal-content {
+    border-radius: 8px;
+  }
+  
+  .modal-header {
+    padding: 1rem;
+    border-bottom: 1px solid #e9ecef;
+  }
+  
+  .modal-body {
+    padding: 1rem;
+    font-size: 0.9rem;
+    line-height: 1.5;
+  }
+  
+  .modal-footer {
+    padding: 1rem;
+    border-top: 1px solid #e9ecef;
+  }
+  
+  .modal-body h6 {
+    font-size: 1rem;
+    font-weight: 600;
+    margin-top: 1rem;
+    margin-bottom: 0.5rem;
+  }
+  
+  .modal-body p {
+    margin-bottom: 0.75rem;
+  }
+  
+  .modal-body ul {
+    margin-bottom: 0.75rem;
+    padding-left: 1.25rem;
+  }
+  
+  .modal-body li {
+    margin-bottom: 0.25rem;
+  }
 }
 
 .auth-header {

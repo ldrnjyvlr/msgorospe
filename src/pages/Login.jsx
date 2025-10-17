@@ -216,6 +216,13 @@ const Login = () => {
               Don't have an account? <Link to="/register" className="text-decoration-none">Register here</Link>
             </p>
           </div>
+          
+          <div className="mt-3 text-center">
+            <Link to="/" className="btn btn-secondary btn-sm d-flex align-items-center justify-content-center mx-auto" style={{width: 'fit-content'}}>
+              <i className="fas fa-arrow-left me-2"></i>
+              Back to Home
+            </Link>
+          </div>
         </div>
       </div>
     </div>

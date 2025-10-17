@@ -6,6 +6,7 @@ import { FaUserMd, FaUser, FaChartLine, FaCalendarAlt, FaUserPlus, FaUsers, FaSh
 import { useAuditLogger, AUDIT_ACTIONS } from '../utils/auditLogger';
 import { Bar, Doughnut } from 'react-chartjs-2';
 import { Chart, BarElement, ArcElement, CategoryScale, LinearScale, Tooltip, Legend } from 'chart.js';
+import '../styles/AdminPanel.css';
 
 Chart.register(BarElement, ArcElement, CategoryScale, LinearScale, Tooltip, Legend);
 
@@ -90,12 +91,7 @@ const AdminPanel = () => {
   }
 
   return (
-    <div className="admin-panel-container" style={{ 
-      overflow: 'hidden', 
-      minHeight: '100vh',
-      background: 'white',
-      padding: '2rem'
-    }}>
+    <div className="admin-panel-container admin-full-width">
       {/* Header Section */}
       <div className="row mb-4">
         <div className="col-12">
@@ -564,7 +560,6 @@ const AdminPanel = () => {
       </div>
      
     </div>
-    
   );
 };
 

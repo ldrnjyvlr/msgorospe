@@ -3,7 +3,9 @@ import React, { useState, useEffect } from 'react';
 import { BrowserRouter as Router, Routes, Route, Navigate } from 'react-router-dom';
 import { supabase } from './lib/supabaseClient';
 import 'bootstrap/dist/css/bootstrap.min.css';
+import 'bootstrap/dist/js/bootstrap.bundle.min.js';
 import './App.css';
+import './styles/ResponsiveForms.css';
 import TestResultDetail from './pages/TestResultDetail';
 
 // Auth Handler Component
@@ -25,7 +27,6 @@ import Login from './pages/Login';
 import Register from './pages/Register';
 import ForgotPassword from './pages/ForgotPassword';
 import ResetPassword from './pages/ResetPassword';
-import PatientView from './pages/PatientView';
 import AdminPanel from './pages/AdminPanel';
 import PsychometriciansList from './pages/PsychometriciansList';
 import PsychologistsList from './pages/PsychologistsList';
@@ -395,7 +396,6 @@ function App() {
                               {/* Patient routes */}
                               {userRole === 'patient' && (
                                 <>
-                                  <Route path="/results" element={<PatientView user={user} userRole={userRole} />} />
                                   <Route path="/tests/:testType/:testId" element={<TestResultDetail user={user} />} />
                                   <Route path="/book-appointment" element={<AppointmentBooking user={user} />} />
                                   <Route path="/my-appointments" element={<MyAppointments user={user} />} />

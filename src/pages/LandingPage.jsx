@@ -1,9 +1,9 @@
 // pages/LandingPage.jsx
-import React, { useState } from 'react';
+import React, { useState, useEffect } from 'react';
 import { Link } from 'react-router-dom';
 import { FaBrain, FaHeartbeat, FaComment, FaClock, FaMapMarkerAlt, FaEnvelope, FaPhone, FaCheckCircle, FaUserMd, FaHospital } from 'react-icons/fa';
 import logoImage from '../assets/logo.png';
-import heroImage from '../assets/hero.png';
+import heroImage from '../assets/center.png';
 import aboutImage from '../assets/about.jpg';
 import './LandingPage.css'; // Import custom CSS
 
@@ -145,6 +145,53 @@ const ServiceModal = ({ show, onClose, title, description }) => {
 const LandingPage = () => {
   const [openModal, setOpenModal] = useState(null);
 
+  // Function to scroll to services section
+  const scrollToServices = (e) => {
+    e.preventDefault();
+    const servicesSection = document.getElementById('services');
+    const navbar = document.querySelector('.navbar');
+    
+    if (servicesSection) {
+      // Calculate precise positioning
+      const navbarHeight = navbar ? navbar.offsetHeight : 80; // Default navbar height
+      const servicesOffsetTop = servicesSection.offsetTop;
+      const targetPosition = servicesOffsetTop - navbarHeight - 10; // Extra 10px margin
+      
+      // Scroll to the exact position with precise control
+      window.scrollTo({
+        top: Math.max(0, targetPosition), // Ensure we don't scroll to negative position
+        behavior: 'smooth'
+      });
+      
+      // Add a slight delay to ensure smooth scrolling completes
+      setTimeout(() => {
+        // Fine-tune the position if needed
+        const currentScroll = window.pageYOffset;
+        const servicesTop = servicesSection.offsetTop;
+        const navbarBottom = navbarHeight;
+        
+        // If services section is not perfectly positioned, adjust
+        if (Math.abs(currentScroll - (servicesTop - navbarBottom)) > 5) {
+          window.scrollTo({
+            top: servicesTop - navbarBottom,
+            behavior: 'smooth'
+          });
+        }
+      }, 300);
+    }
+    
+    // Close mobile menu if open
+    const navbarCollapse = document.getElementById('navbarNav');
+    if (navbarCollapse && navbarCollapse.classList.contains('show')) {
+      const navbarToggler = document.querySelector('.navbar-toggler');
+      if (navbarToggler) {
+        navbarToggler.click();
+      }
+    }
+  };
+
+  // Bootstrap collapse functionality is now handled by the global import
+
   // Get the currently selected service
   const selectedService = openModal !== null ? services[openModal] : null;
 
@@ -163,6 +210,9 @@ const LandingPage = () => {
             type="button" 
             data-bs-toggle="collapse" 
             data-bs-target="#navbarNav"
+            aria-controls="navbarNav"
+            aria-expanded="false"
+            aria-label="Toggle navigation"
           >
             <span className="navbar-toggler-icon"></span>
           </button>
@@ -173,7 +223,13 @@ const LandingPage = () => {
                 <a className="nav-link nav-link-hover" href="#home">Home</a>
               </li>
               <li className="nav-item">
-                <a className="nav-link nav-link-hover" href="#services">Services</a>
+                <a 
+                  className="nav-link nav-link-hover" 
+                  href="#services"
+                  onClick={scrollToServices}
+                >
+                  Services
+                </a>
               </li>
               <li className="nav-item">
                 <a className="nav-link nav-link-hover" href="#about">About</a>
@@ -201,11 +257,12 @@ const LandingPage = () => {
           backgroundPosition: 'center',
           backgroundRepeat: 'no-repeat',
           backgroundAttachment: 'fixed',
-          minHeight: '100vh',
+          height: '100vh',
           position: 'relative',
           display: 'flex',
           alignItems: 'center',
-          paddingTop: '80px'
+          paddingTop: '80px',
+          paddingBottom: '0'
         }}
       >
         <div className="container">
@@ -217,9 +274,15 @@ const LandingPage = () => {
               <p className="hero-subtitle text-white mb-5 animate-fadeInUp" style={{ fontSize: '1.3rem', maxWidth: '700px', margin: '0 auto' }}>
                 provides expert psychological evaluations and therapy services tailored to your unique needs.
               </p>
-              <div className="animate-fadeInUp">
-                <Link to="/register" className="btn btn-primary btn-lg px-5 me-3 btn-pulse">Get Started</Link>
-                <a href="#services" className="btn btn-outline-white btn-lg px-5">Our Services</a>
+              <div className="animate-fadeInUp d-flex flex-column flex-sm-row gap-2 gap-sm-3 justify-content-center align-items-center">
+                <Link to="/register" className="btn btn-primary btn-lg px-4 px-sm-5 btn-pulse">Get Started</Link>
+                <a 
+                  href="#services" 
+                  className="btn btn-outline-white btn-lg px-4 px-sm-5"
+                  onClick={scrollToServices}
+                >
+                  Our Services
+                </a>
               </div>
             </div>
           </div>
@@ -232,68 +295,80 @@ const LandingPage = () => {
       </section>
       
       {/* Services Section */}
-      <section id="services" className="landing-section py-5" style={{ minHeight: '100vh', display: 'flex', alignItems: 'center' }}>
+      <section id="services" className="landing-section py-5" style={{ backgroundColor: '#ffffff', minHeight: 'auto' }}>
         <div className="container">
           <div className="text-center mb-5">
-            <h2 className="section-title text-primary fw-bold mb-3">Services</h2>
-            <div className="section-divider mx-auto mb-4"></div>
-            <p className="lead">We provide professional psychological services designed to support mental wellness and personal growth.</p>
+            <h2 className="section-title text-primary fw-bold mb-3" style={{ fontSize: '2.5rem', color: '#FF8FA3' }}>Services</h2>
+            <div className="section-divider mx-auto mb-4" style={{ width: '60px', height: '3px', backgroundColor: '#FF8FA3' }}></div>
+            <p className="lead text-muted" style={{ fontSize: '1.1rem', maxWidth: '600px', margin: '0 auto' }}>
+              We provide professional psychological services designed to support mental wellness and personal growth.
+            </p>
           </div>
-          {/* Top row of 5 services */}
-          <div className="row g-4 justify-content-center mb-2">
-            {services.slice(0, 5).map((service, idx) => (
-              <div className="col-12 col-sm-6 col-md-4 col-lg-2 d-flex justify-content-center" key={service.title}>
+          
+          {/* Services Grid - 2 rows of 5 cards each */}
+          <div className="row g-4 justify-content-center">
+            {services.map((service, idx) => (
+              <div className="col-6 col-md-4 col-lg-2 d-flex justify-content-center" key={service.title}>
                 <div
-                  className="service-card h-100 p-3 rounded"
-                  style={{ cursor: 'pointer', minWidth: 180, maxWidth: 220, minHeight: 220, maxHeight: 260, display: 'flex', flexDirection: 'column', justifyContent: 'flex-start', alignItems: 'center' }}
+                  className="service-card h-100 p-4 rounded shadow-sm"
+                  style={{ 
+                    cursor: 'pointer', 
+                    display: 'flex', 
+                    flexDirection: 'column', 
+                    justifyContent: 'center', 
+                    alignItems: 'center',
+                    width: '100%',
+                    backgroundColor: '#ffffff',
+                    border: 'none',
+                    borderRadius: '12px',
+                    transition: 'all 0.3s ease',
+                    minHeight: '200px'
+                  }}
+                  onMouseEnter={(e) => {
+                    e.currentTarget.style.transform = 'translateY(-5px)';
+                    e.currentTarget.style.boxShadow = '0 8px 25px rgba(255, 143, 163, 0.15)';
+                  }}
+                  onMouseLeave={(e) => {
+                    e.currentTarget.style.transform = 'translateY(0)';
+                    e.currentTarget.style.boxShadow = '0 2px 8px rgba(0, 0, 0, 0.08)';
+                  }}
                 >
-                  <div className={`service-icon ${service.iconClass} text-white rounded-circle d-flex align-items-center justify-content-center mb-3`} style={{ width: '60px', height: '60px', margin: '0 auto' }}>
+                  <div 
+                    className="service-icon text-white rounded-circle d-flex align-items-center justify-content-center mb-3" 
+                    style={{ 
+                      width: '70px', 
+                      height: '70px', 
+                      margin: '0 auto',
+                      backgroundColor: service.iconClass === 'bg-primary' ? '#FF8FA3' :
+                                     service.iconClass === 'bg-info' ? '#17a2b8' :
+                                     service.iconClass === 'bg-success' ? '#28a745' :
+                                     service.iconClass === 'bg-warning' ? '#ffc107' :
+                                     service.iconClass === 'bg-danger' ? '#dc3545' :
+                                     '#6c757d'
+                    }}
+                  >
                     {service.icon}
                   </div>
-                  <h4 className="service-title text-center mb-2 text-primary" style={{ fontSize: '1.05rem' }}>{service.title}</h4>
-                  {/* Removed short description here */}
-                  <div style={{ flexGrow: 1 }}></div>
+                  <h4 className="service-title text-center mb-3" style={{ 
+                    fontSize: '1rem', 
+                    fontWeight: '600',
+                    color: '#FF8FA3',
+                    lineHeight: '1.3'
+                  }}>
+                    {service.title}
+                  </h4>
                   <button
-                    className="btn btn-link mt-3"
+                    className="btn btn-link"
                     style={{
                       textDecoration: 'none',
                       color: '#FF8FA3',
-                      fontWeight: 500,
-                      display: 'block',
-                      width: '100%',
+                      fontWeight: '500',
+                      fontSize: '0.9rem',
+                      padding: '0',
+                      border: 'none',
+                      background: 'none'
                     }}
                     onClick={() => setOpenModal(idx)}
-                  >
-                    Learn More
-                  </button>
-                </div>
-              </div>
-            ))}
-          </div>
-          {/* Bottom row of 5 services */}
-          <div className="row g-4 justify-content-center">
-            {services.slice(5, 10).map((service, idx) => (
-              <div className="col-12 col-sm-6 col-md-4 col-lg-2 d-flex justify-content-center" key={service.title}>
-                <div
-                  className="service-card h-100 p-3 rounded"
-                  style={{ cursor: 'pointer', minWidth: 180, maxWidth: 220, minHeight: 220, maxHeight: 260, display: 'flex', flexDirection: 'column', justifyContent: 'flex-start', alignItems: 'center' }}
-                >
-                  <div className={`service-icon ${service.iconClass} text-white rounded-circle d-flex align-items-center justify-content-center mb-3`} style={{ width: '60px', height: '60px', margin: '0 auto' }}>
-                    {service.icon}
-                  </div>
-                  <h4 className="service-title text-center mb-2 text-primary" style={{ fontSize: '1.05rem' }}>{service.title}</h4>
-                  {/* Removed short description here */}
-                  <div style={{ flexGrow: 1 }}></div>
-                  <button
-                    className="btn btn-link mt-3"
-                    style={{
-                      textDecoration: 'none',
-                      color: '#FF8FA3',
-                      fontWeight: 500,
-                      display: 'block',
-                      width: '100%',
-                    }}
-                    onClick={() => setOpenModal(idx + 5)}
                   >
                     Learn More
                   </button>
@@ -379,9 +454,9 @@ const LandingPage = () => {
           
           <div className="row justify-content-center g-4">
             <div className="col-lg-10">
-              <div className="row g-4">
+              <div className="row g-4 justify-content-center">
                 {/* Location Card */}
-                <div className="col-md-4">
+                <div className="col-12 col-sm-6 col-lg-4">
                   <div className="contact-card h-100 p-4 text-center">
                     <div className="contact-icon-wrapper mx-auto mb-3">
                       <FaMapMarkerAlt size={30} />
@@ -396,31 +471,31 @@ const LandingPage = () => {
                 </div>
                 
                 {/* Phone Card */}
-                <div className="col-md-4">
+                <div className="col-12 col-sm-6 col-lg-4">
                   <div className="contact-card h-100 p-4 text-center">
                     <div className="contact-icon-wrapper mx-auto mb-3">
                       <FaPhone size={30} />
                     </div>
                     <h5 className="fw-bold text-dark mb-3">Call Us</h5>
                     <p className="text-muted mb-0">
-                      (077) 674-0984<br />
-                      0927 545 0235<br />
+                      <a href="tel:+63776740984" className="text-muted text-decoration-none">(077) 674-0984</a><br />
+                      <a href="tel:+639275450235" className="text-muted text-decoration-none">0927 545 0235</a><br />
                       Mon-Fri: 9:00 AM - 5:00 PM
                     </p>
                   </div>
                 </div>
                 
                 {/* Email Card */}
-                <div className="col-md-4">
+                <div className="col-12 col-sm-6 col-lg-4">
                   <div className="contact-card h-100 p-4 text-center">
                     <div className="contact-icon-wrapper mx-auto mb-3">
                       <FaEnvelope size={30} />
                     </div>
                     <h5 className="fw-bold text-dark mb-3">Email Us</h5>
                     <p className="text-muted mb-0">
-                      msgorospepac@gmail.com<br />
-                      info@msgorospe.com<br />
-                      <span className="small">We'll respond within 24 hours</span>
+                      <a href="mailto:msgorospepac@gmail.com" className="text-muted text-decoration-none">msgorospepac@gmail.com</a><br />
+                      <a href="mailto:info@msgorospe.com" className="text-muted text-decoration-none">info@msgorospe.com</a><br />
+                      <span className="small text-muted">We'll respond within 24 hours</span>
                     </p>
                   </div>
                 </div>
@@ -434,9 +509,9 @@ const LandingPage = () => {
                     <p className="text-white-50 mb-4">
                       Take the first step towards better mental health. Our team of professionals is ready to support you.
                     </p>
-                    <div>
-                      <Link to="/register" className="btn btn-white btn-lg px-5 me-3 btn-hover-effect">Book an Appointment</Link>
-                      <a href="tel:+639275450235" className="btn btn-outline-white btn-lg px-5 btn-hover-effect">Call Now</a>
+                    <div className="d-flex flex-column flex-sm-row gap-2 gap-sm-3 justify-content-center align-items-center">
+                      <Link to="/register" className="btn btn-white btn-lg px-4 px-sm-5 btn-hover-effect">Book an Appointment</Link>
+                      <a href="tel:+639275450235" className="btn btn-outline-white btn-lg px-4 px-sm-5 btn-hover-effect">Call Now</a>
                     </div>
                   </div>
                 </div>
