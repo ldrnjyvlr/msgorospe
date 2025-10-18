@@ -8,6 +8,7 @@ const CompleteProfile = () => {
   const navigate = useNavigate();
   const [loading, setLoading] = useState(true);
   const [saving, setSaving] = useState(false);
+  const [success, setSuccess] = useState(false);
   const [user, setUser] = useState(null);
   const [userRole, setUserRole] = useState(null);
   const [personalInfo, setPersonalInfo] = useState({
@@ -242,6 +243,7 @@ const CompleteProfile = () => {
     e.preventDefault();
     setSaving(true);
     setError(null);
+    setSuccess(false);
     
     try {
       if (!user) {
@@ -290,13 +292,22 @@ const CompleteProfile = () => {
         if (error) throw error;
       }
       
-      // Navigate to dashboard after successful update
-      navigate('/');
+      // Success! Show success message briefly before navigating
+      console.log('Profile updated successfully, navigating to dashboard...');
+      
+      // Show success feedback to user
+      setError(null);
+      setSuccess(true);
+      
+      // Small delay to show success state, then navigate
+      setTimeout(() => {
+        navigate('/', { replace: true });
+      }, 1500);
+      
     } catch (error) {
       console.error('Error updating profile:', error);
       setError('Failed to update profile. Please try again.');
-    } finally {
-      setSaving(false);
+      setSaving(false); // Only set saving to false on error
     }
   };
 
@@ -331,6 +342,12 @@ const CompleteProfile = () => {
               {error && (
                 <div className="alert alert-danger" role="alert">
                   <FaExclamationTriangle className="me-2" /> {error}
+                </div>
+              )}
+              
+              {success && (
+                <div className="alert alert-success" role="alert">
+                  <i className="fas fa-check-circle me-2"></i> Profile saved successfully! Redirecting to dashboard...
                 </div>
               )}
               
@@ -702,12 +719,16 @@ const CompleteProfile = () => {
                   <button
                     type="submit"
                     className="btn btn-primary"
-                    disabled={saving}
+                    disabled={saving || success}
                   >
                     {saving ? (
                       <>
                         <span className="spinner-border spinner-border-sm me-2" role="status" aria-hidden="true"></span>
                         Saving...
+                      </>
+                    ) : success ? (
+                      <>
+                        <i className="fas fa-check me-2"></i> Saved Successfully!
                       </>
                     ) : (
                       <>

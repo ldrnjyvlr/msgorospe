@@ -23,12 +23,14 @@ import Psychotherapy from './pages/Psychotherapy';
 import ABATherapy from './pages/ABATherapy';
 import Reports from './pages/Reports';
 import Settings from './pages/Settings';
+import Register from './pages/Register';
 import ForgotPassword from './pages/ForgotPassword';
 import ResetPassword from './pages/ResetPassword';
 import AdminPanel from './pages/AdminPanel';
 import PsychometriciansList from './pages/PsychometriciansList';
 import PsychologistsList from './pages/PsychologistsList';
 import LandingPage from './pages/LandingPage';
+import Login from './pages/Login';
 import CompleteProfile from './pages/CompleteProfile';
 
 // Appointment System Components
@@ -348,6 +350,8 @@ function App() {
             <>
               <Routes>
                 <Route path="/" element={<LandingPage />} />
+                <Route path="/login" element={<Login />} />
+                <Route path="/register" element={<Register />} />
                 <Route path="/forgot-password" element={<ForgotPassword />} />
                 <Route path="/reset-password" element={<ResetPassword />} />
                 <Route path="/session-recovery" element={<SessionRecovery />} />

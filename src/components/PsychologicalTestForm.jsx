@@ -73,6 +73,7 @@ const PsychologicalTestForm = ({ testId = null, onSuccess, userRole }) => {
       workEthics: 'average',
       technologicalLiteracy: 'average',
       teamwork: 'average',
+      summary_type: 'average', // 'above_average', 'average', 'below_average'
       summary: ''
     },
     remarks: 'The psychological test result is only suggestive of central behavioral tendencies and should still be correlated with clinical findings.'
@@ -311,6 +312,20 @@ const PsychologicalTestForm = ({ testId = null, onSuccess, userRole }) => {
       return;
     }
 
+    // Handle WSS summary type dropdown
+    if (name === 'workplace_skills.summary_type') {
+      setFormData({
+        ...formData,
+        workplace_skills: {
+          ...formData.workplace_skills,
+          summary_type: value
+        }
+      });
+      // Generate summary based on selected type
+      generateWorkplaceSkillsSummary(value);
+      return;
+    }
+
     if (name.includes('.')) {
       const [parent, child] = name.split('.');
       setFormData({
@@ -429,42 +444,20 @@ const PsychologicalTestForm = ({ testId = null, onSuccess, userRole }) => {
     }));
   };
   
-  // Generate workplace skills summary
-  const generateWorkplaceSkillsSummary = () => {
+  // Generate workplace skills summary based on dropdown selection
+  const generateWorkplaceSkillsSummary = (summaryType = null) => {
     const { workplace_skills } = formData;
+    const selectedType = summaryType || workplace_skills.summary_type;
     
-    // Count occurrences of each rating
-    const ratings = {
-      above_average: 0,
-      average: 0,
-      below_average: 0
-    };
-    
-    ['communication', 'adaptingToChange', 'problemSolving', 'workEthics', 'technologicalLiteracy', 'teamwork'].forEach(skill => {
-      if (workplace_skills[skill]) {
-        ratings[workplace_skills[skill]]++;
-      }
-    });
-    
-    // Determine overall rating
-    let overallRating;
-    if (ratings.above_average > ratings.below_average && ratings.above_average >= ratings.average) {
-      overallRating = "above_average";
-    } else if (ratings.below_average > ratings.above_average && ratings.below_average >= ratings.average) {
-      overallRating = "below_average";
-    } else {
-      overallRating = "average";
-    }
-    
-    // Generate personalized summary
+    // Generate personalized summary based on selected type
     let summary = "";
     if (selectedPatient) {
       const lastName = getLastName(selectedPatient.name);
       const pronouns = getPronouns(selectedPatient.sex);
       
-      if (overallRating === "above_average") {
+      if (selectedType === "above_average") {
         summary = `${lastName} obtained a composite rating of "Above Average." This signifies that ${lastName} has competence and the necessary abilities and skills needed in the different areas of workplace success across industries and job levels.`;
-      } else if (overallRating === "below_average") {
+      } else if (selectedType === "below_average") {
         summary = `${lastName} obtained a composite rating of "Below Average". This signifies that ${lastName} has significant limitations in the different areas of workplace success across industries and job levels.`;
       } else {
         summary = `${lastName} obtained a composite rating of "Average." This signifies that though ${lastName} has the necessary abilities and skills needed in the different areas of workplace success across industries and job levels, further improvement and development is needed.`;
@@ -476,6 +469,7 @@ const PsychologicalTestForm = ({ testId = null, onSuccess, userRole }) => {
       ...formData,
       workplace_skills: {
         ...workplace_skills,
+        summary_type: selectedType,
         summary: summary
       }
     });
@@ -1148,32 +1142,40 @@ const PsychologicalTestForm = ({ testId = null, onSuccess, userRole }) => {
                     </select>
                   </td>
                 </tr>
+                <tr className="table-info">
+                  <td><strong>Summary Type</strong></td>
+                  <td>
+                    <select
+                      className="form-select"
+                      id="workplace_skills.summary_type"
+                      name="workplace_skills.summary_type"
+                      value={formData.workplace_skills.summary_type}
+                      onChange={handleInputChange}
+                    >
+                      <option value="above_average">Above Average</option>
+                      <option value="average">Average</option>
+                      <option value="below_average">Below Average</option>
+                    </select>
+                  </td>
+                </tr>
+                <tr className="table-light">
+                  <td><strong>Summary</strong></td>
+                  <td>
+                    <textarea
+                      className="form-control"
+                      id="workplace_skills.summary"
+                      name="workplace_skills.summary"
+                      rows="3"
+                      value={formData.workplace_skills.summary}
+                      onChange={handleInputChange}
+                      placeholder="Summary will be generated based on selected type..."
+                    ></textarea>
+                    <small className="form-text text-muted">Select summary type above to generate interpretation</small>
+                  </td>
+                </tr>
               </tbody>
             </table>
-            
-            <div className="mt-3">
-              <button
-                type="button"
-                className="btn btn-outline-primary"
-                onClick={generateWorkplaceSkillsSummary}
-              >
-                Generate Summary <FaCheck className="ms-1" />
-              </button>
-            </div>
           </div>
-        </div>
-        
-        <div className="mb-3">
-          <label htmlFor="workplace_skills.summary" className="form-label">Workplace Skills Summary (Editable)</label>
-          <textarea
-            className="form-control"
-            id="workplace_skills.summary"
-            name="workplace_skills.summary"
-            rows="5"
-            value={formData.workplace_skills.summary}
-            onChange={handleInputChange}
-          ></textarea>
-          <small className="form-text text-muted">Click "Generate Summary" or write a custom summary</small>
         </div>
         
         <div className="mb-3">
@@ -1310,6 +1312,9 @@ const PsychologicalTestForm = ({ testId = null, onSuccess, userRole }) => {
               </ul>
             </div>
             <div>
+              <strong>Summary Type:</strong> {formData.workplace_skills.summary_type.replace('_', ' ')}
+            </div>
+            <div className="mt-2">
               <strong>Summary:</strong>
               <p>{formData.workplace_skills.summary}</p>
             </div>

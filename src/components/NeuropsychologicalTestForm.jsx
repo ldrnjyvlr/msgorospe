@@ -62,7 +62,9 @@ const NeuropsychologicalTestForm = ({ patientInfo, userRole, userId, onSuccess }
       problem_solving: 'Average',
       work_ethics: 'Average',
       technological_literacy: 'Average',
-      teamwork: 'Average'
+      teamwork: 'Average',
+      summary_type: 'Average', // 'Above Average', 'Average', 'Below Average'
+      summary: ''
     },
     // CFIT results with auto-calculation - reordered fields
     cfit_results: {
@@ -177,6 +179,20 @@ const NeuropsychologicalTestForm = ({ patientInfo, userRole, userId, onSuccess }
       return;
     }
 
+    // Handle WSS summary type dropdown
+    if (section === 'wss_results' && field === 'summary_type') {
+      setFormData({
+        ...formData,
+        wss_results: {
+          ...formData.wss_results,
+          summary_type: value
+        }
+      });
+      // Generate summary based on selected type
+      generateWorkplaceSkillsSummary(value);
+      return;
+    }
+
     if (section) {
       setFormData({
         ...formData,
@@ -273,6 +289,36 @@ const NeuropsychologicalTestForm = ({ patientInfo, userRole, userId, onSuccess }
     }
     
     return interpretation;
+  };
+
+  // Generate workplace skills summary based on dropdown selection
+  const generateWorkplaceSkillsSummary = (summaryType = null) => {
+    const selectedType = summaryType || formData.wss_results.summary_type;
+    
+    // Generate personalized summary based on selected type
+    let summary = "";
+    if (patientInfo) {
+      const lastName = getLastName(patientInfo.name);
+      const pronouns = getPronouns(patientInfo.sex);
+      
+      if (selectedType === "Above Average") {
+        summary = `${lastName} obtained a composite rating of "Above Average." This signifies that ${lastName} has competence and the necessary abilities and skills needed in the different areas of workplace success across industries and job levels.`;
+      } else if (selectedType === "Below Average") {
+        summary = `${lastName} obtained a composite rating of "Below Average". This signifies that ${lastName} has significant limitations in the different areas of workplace success across industries and job levels.`;
+      } else {
+        summary = `${lastName} obtained a composite rating of "Average." This signifies that though ${lastName} has the necessary abilities and skills needed in the different areas of workplace success across industries and job levels, further improvement and development is needed.`;
+      }
+    }
+    
+    // Update the formData with the new summary
+    setFormData(prev => ({
+      ...prev,
+      wss_results: {
+        ...prev.wss_results,
+        summary_type: selectedType,
+        summary: summary
+      }
+    }));
   };
 
   // Get BPI interpretations based on scale and score
@@ -930,43 +976,61 @@ const NeuropsychologicalTestForm = ({ patientInfo, userRole, userId, onSuccess }
                 </tr>
               </thead>
               <tbody>
-                {Object.entries(formData.wss_results).map(([skill, value]) => {
-                  // Format skill name from snake_case to Title Case
-                  const label = skill
-                    .split('_')
-                    .map(word => word.charAt(0).toUpperCase() + word.slice(1))
-                    .join(' ');
-                  
-                  return (
-                    <tr key={skill}>
-                      <td>{label}</td>
-                      <td>
-                        <select
-                          className="form-select"
-                          value={value}
-                          onChange={(e) => handleInputChange('wss_results', skill, e.target.value)}
-                        >
-                          <option value="Poor">Poor</option>
-                          <option value="Below Average">Below Average</option>
-                          <option value="Average">Average</option>
-                          <option value="Above Average">Above Average</option>
-                          <option value="Excellent">Excellent</option>
-                        </select>
-                      </td>
-                    </tr>
-                  );
-                })}
+                {Object.entries(formData.wss_results)
+                  .filter(([skill]) => skill !== 'summary_type' && skill !== 'summary')
+                  .map(([skill, value]) => {
+                    // Format skill name from snake_case to Title Case
+                    const label = skill
+                      .split('_')
+                      .map(word => word.charAt(0).toUpperCase() + word.slice(1))
+                      .join(' ');
+                    
+                    return (
+                      <tr key={skill}>
+                        <td>{label}</td>
+                        <td>
+                          <select
+                            className="form-select"
+                            value={value}
+                            onChange={(e) => handleInputChange('wss_results', skill, e.target.value)}
+                          >
+                            <option value="Below Average">Below Average</option>
+                            <option value="Average">Average</option>
+                            <option value="Above Average">Above Average</option>
+                          </select>
+                        </td>
+                      </tr>
+                    );
+                  })}
+                <tr className="table-info">
+                  <td><strong>Summary Type</strong></td>
+                  <td>
+                    <select
+                      className="form-select"
+                      value={formData.wss_results.summary_type}
+                      onChange={(e) => handleInputChange('wss_results', 'summary_type', e.target.value)}
+                    >
+                      <option value="Above Average">Above Average</option>
+                      <option value="Average">Average</option>
+                      <option value="Below Average">Below Average</option>
+                    </select>
+                  </td>
+                </tr>
+                <tr className="table-light">
+                  <td><strong>Summary</strong></td>
+                  <td>
+                    <textarea
+                      className="form-control"
+                      rows="3"
+                      value={formData.wss_results.summary}
+                      onChange={(e) => handleInputChange('wss_results', 'summary', e.target.value)}
+                      placeholder="Summary will be generated based on selected type..."
+                    ></textarea>
+                    <small className="form-text text-muted">Select summary type above to generate interpretation</small>
+                  </td>
+                </tr>
               </tbody>
             </table>
-          </div>
-
-          <div className="mt-4">
-            <h6 className="mb-3">Workplace Skills Summary (Editable)</h6>
-            <textarea
-              className="form-control"
-              rows="4"
-              placeholder="Enter a summary of the client's workplace skills..."
-            ></textarea>
           </div>
         </div>
       </div>
