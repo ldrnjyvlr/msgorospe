@@ -261,10 +261,10 @@ const NeuropsychiatricTests = ({ user, userRole }) => {
                   <thead>
                     <tr>
                       <th>Patient Name</th>
+                      <th>Age</th>
+                      <th>Sex</th>
+                      <th>Purpose</th>
                       <th>Date Created</th>
-                      <th>Psychiatrist</th>
-                      <th>MMSE Score</th>
-                      <th>Risk Level</th>
                       <th>Actions</th>
                     </tr>
                   </thead>
@@ -273,23 +273,10 @@ const NeuropsychiatricTests = ({ user, userRole }) => {
                       filteredTests.map((test) => (
                         <tr key={test.id}>
                           <td>{test.patient_name}</td>
+                          <td>{test.patient?.age || 'N/A'}</td>
+                          <td>{test.patient?.sex || 'N/A'}</td>
+                          <td>{test.patient?.purpose_of_examination || 'N/A'}</td>
                           <td>{new Date(test.created_at).toLocaleDateString()}</td>
-                          <td>{test.psychologist_name}</td>
-                          <td>
-                            {test.mental_status_exam ? (
-                              <span className="badge bg-info">
-                                {calculateMMSETotal(test.mental_status_exam)}/31
-                              </span>
-                            ) : (
-                              <span className="badge bg-secondary">Not Assessed</span>
-                            )}
-                          </td>
-                          <td>
-                            {test.risk_assessment ? 
-                              <span className="badge bg-warning text-dark">Assessed</span> : 
-                              <span className="badge bg-secondary">Not Assessed</span>
-                            }
-                          </td>
                           <td>
                             <div className="d-flex">
                               <button 

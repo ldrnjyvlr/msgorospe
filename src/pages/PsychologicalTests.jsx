@@ -847,9 +847,9 @@ const PsychologicalTests = ({ userRole }) => {
                 <thead>
                   <tr>
                     <th>Patient Name</th>
-                    <th>Age/Sex</th>
+                    <th>Age</th>
+                    <th>Sex</th>
                     <th>Purpose</th>
-                    <th>CFIT Score</th>
                     <th>Date</th>
                     <th>Actions</th>
                   </tr>
@@ -867,9 +867,9 @@ const PsychologicalTests = ({ userRole }) => {
                     tests.map((test) => (
                       <tr key={test.id}>
                         <td>{test.personal_info?.name || 'Unknown'}</td>
-                        <td>{test.personal_info?.age || 'N/A'} / {test.personal_info?.sex || 'N/A'}</td>
+                        <td>{test.personal_info?.age || 'N/A'}</td>
+                        <td>{test.personal_info?.sex || 'N/A'}</td>
                         <td>{test.personal_info?.purpose_of_examination || 'N/A'}</td>
-                        <td>{test.cfit_iq_equivalent || 'N/A'}</td>
                         <td>{test.created_at ? new Date(test.created_at).toLocaleDateString() : 'N/A'}</td>
                         <td>
                           <div className="d-flex">

@@ -94,6 +94,63 @@
   box-shadow: 0 5px 15px rgba(255, 143, 163, 0.3);
 }
 
+/* Navbar button styling for alignment */
+.navbar-nav .btn,
+.navbar .d-flex .btn {
+  font-size: 0.8rem !important;
+  padding: 0.25rem 0.75rem !important;
+  margin: 0 0.15rem !important;
+  border-radius: 15px !important;
+  font-weight: 500 !important;
+  height: auto !important;
+  line-height: 1.1 !important;
+  display: inline-flex !important;
+  align-items: center !important;
+  justify-content: center !important;
+  min-height: 28px !important;
+}
+
+.navbar-nav .btn-outline-primary,
+.navbar .d-flex .btn-outline-primary {
+  border: 1px solid var(--primary-color) !important;
+  color: var(--primary-color) !important;
+  background-color: transparent !important;
+}
+
+.navbar-nav .btn-outline-primary:hover,
+.navbar .d-flex .btn-outline-primary:hover {
+  background-color: var(--primary-color) !important;
+  color: white !important;
+  border-color: var(--primary-color) !important;
+}
+
+.navbar-nav .btn-primary,
+.navbar .d-flex .btn-primary {
+  background-color: var(--primary-color) !important;
+  border: 1px solid var(--primary-color) !important;
+  color: white !important;
+}
+
+.navbar-nav .btn-primary:hover,
+.navbar .d-flex .btn-primary:hover {
+  background-color: var(--secondary-color) !important;
+  border-color: var(--secondary-color) !important;
+  color: white !important;
+}
+
+/* Override Bootstrap margin classes that push buttons down */
+.navbar .mt-3 {
+  margin-top: 0 !important;
+}
+
+.navbar .mt-lg-0 {
+  margin-top: 0 !important;
+}
+
+.navbar .d-flex {
+  align-items: center !important;
+}
+
 .btn-outline-white {
   color: white;
   border: 2px solid white;
@@ -287,6 +344,7 @@
   transform: scale(1.1);
 }
 
+<<<<<<< HEAD
 /* Mobile Service Cards */
 .service-card-mobile {
   background-color: white;
@@ -367,6 +425,8 @@
   font-weight: bold !important;
 }
 
+=======
+>>>>>>> 1c29db8 (keok 2)
 /* Services Section Specific Styles */
 #services {
   background-color: #ffffff;
@@ -608,6 +668,7 @@ html {
     width: 80px !important;
     height: 80px !important;
   }
+<<<<<<< HEAD
   
   /* Ensure desktop services are properly displayed */
   .services-swiper {
@@ -618,6 +679,8 @@ html {
   .d-md-block {
     display: block !important;
   }
+=======
+>>>>>>> 1c29db8 (keok 2)
 }
 
 /* Medium screens (992px to 1199px) */
@@ -640,6 +703,7 @@ html {
     width: 70px !important;
     height: 70px !important;
   }
+<<<<<<< HEAD
   
   /* Ensure desktop grid is visible on medium screens */
   .services-swiper {
@@ -649,6 +713,8 @@ html {
   .d-md-block {
     display: block !important;
   }
+=======
+>>>>>>> 1c29db8 (keok 2)
 }
 
 /* Small screens (768px to 991px) */
@@ -677,6 +743,7 @@ html {
     height: 60px !important;
   }
   
+<<<<<<< HEAD
   /* Ensure desktop grid is visible on tablet screens */
   .services-swiper {
     display: none !important;
@@ -686,6 +753,8 @@ html {
     display: block !important;
   }
   
+=======
+>>>>>>> 1c29db8 (keok 2)
   .navbar-brand img {
     height: 50px;
   }
@@ -802,6 +871,7 @@ html {
     margin-bottom: 0.8rem !important;
   }
   
+<<<<<<< HEAD
   /* Mobile Carousel Styles */
   .services-swiper {
     padding: 15px 0 50px 0;
@@ -821,6 +891,8 @@ html {
     font-size: 1rem !important;
   }
   
+=======
+>>>>>>> 1c29db8 (keok 2)
   .navbar-brand img {
     height: 45px;
   }
@@ -989,6 +1061,7 @@ html {
     height: 18px !important;
   }
   
+<<<<<<< HEAD
   /* Extra Small Mobile Carousel Styles */
   .services-swiper {
     padding: 10px 0 40px 0;
@@ -1015,6 +1088,8 @@ html {
     margin: 0 4px !important;
   }
   
+=======
+>>>>>>> 1c29db8 (keok 2)
   .navbar {
     padding: 0.4rem 0 !important;
   }
@@ -1279,6 +1354,7 @@ html {
     height: 20px !important;
   }
   
+<<<<<<< HEAD
   /* Small Mobile Carousel Styles */
   .services-swiper {
     padding: 12px 0 45px 0;
@@ -1299,6 +1375,8 @@ html {
     font-size: 1rem !important;
   }
   
+=======
+>>>>>>> 1c29db8 (keok 2)
   .navbar {
     padding: 0.5rem 0 !important;
   }
@@ -1616,6 +1694,10 @@ html {
     margin: 8px 0;
     border-radius: 30px;
     transition: all 0.3s ease;
+<<<<<<< HEAD
+=======
+    min-height: 44px;
+>>>>>>> 1c29db8 (keok 2)
   }
   
   .navbar-nav .btn:hover {

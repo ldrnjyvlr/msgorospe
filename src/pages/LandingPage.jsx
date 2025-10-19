@@ -1,5 +1,6 @@
 // pages/LandingPage.jsx
 import React, { useState, useEffect } from 'react';
+<<<<<<< HEAD
 import { Link, useNavigate } from 'react-router-dom';
 import { FaBrain, FaHeartbeat, FaComment, FaClock, FaMapMarkerAlt, FaEnvelope, FaPhone, FaCheckCircle, FaUserMd, FaHospital, FaEye, FaEyeSlash } from 'react-icons/fa';
 import { Swiper, SwiperSlide } from 'swiper/react';
@@ -7,6 +8,10 @@ import { Pagination, Navigation } from 'swiper/modules';
 import 'swiper/css';
 import 'swiper/css/pagination';
 import 'swiper/css/navigation';
+=======
+import { Link } from 'react-router-dom';
+import { FaBrain, FaHeartbeat, FaComment, FaClock, FaMapMarkerAlt, FaEnvelope, FaPhone, FaCheckCircle, FaUserMd, FaHospital } from 'react-icons/fa';
+>>>>>>> 1c29db8 (keok 2)
 import logoImage from '../assets/logo.png';
 import heroImage from '../assets/center.png';
 import aboutImage from '../assets/about.jpg';
@@ -312,6 +317,7 @@ const LandingPage = () => {
             </p>
           </div>
           
+<<<<<<< HEAD
           {/* Desktop Services Grid - Hidden on small mobile screens */}
           <div className="d-none d-md-block">
             <div className="row g-4 justify-content-center">
@@ -475,6 +481,78 @@ const LandingPage = () => {
                 </SwiperSlide>
               ))}
             </Swiper>
+=======
+          {/* Services Grid - 2 rows of 5 cards each */}
+          <div className="row g-4 justify-content-center">
+            {services.map((service, idx) => (
+              <div className="col-6 col-md-4 col-lg-2 d-flex justify-content-center" key={service.title}>
+                <div
+                  className="service-card h-100 p-4 rounded shadow-sm"
+                  style={{ 
+                    cursor: 'pointer', 
+                    display: 'flex', 
+                    flexDirection: 'column', 
+                    justifyContent: 'center', 
+                    alignItems: 'center',
+                    width: '100%',
+                    backgroundColor: '#ffffff',
+                    border: 'none',
+                    borderRadius: '12px',
+                    transition: 'all 0.3s ease',
+                    minHeight: '200px'
+                  }}
+                  onMouseEnter={(e) => {
+                    e.currentTarget.style.transform = 'translateY(-5px)';
+                    e.currentTarget.style.boxShadow = '0 8px 25px rgba(255, 143, 163, 0.15)';
+                  }}
+                  onMouseLeave={(e) => {
+                    e.currentTarget.style.transform = 'translateY(0)';
+                    e.currentTarget.style.boxShadow = '0 2px 8px rgba(0, 0, 0, 0.08)';
+                  }}
+                >
+                  <div 
+                    className="service-icon text-white rounded-circle d-flex align-items-center justify-content-center mb-3" 
+                    style={{ 
+                      width: '70px', 
+                      height: '70px', 
+                      margin: '0 auto',
+                      backgroundColor: service.iconClass === 'bg-primary' ? '#FF8FA3' :
+                                     service.iconClass === 'bg-info' ? '#17a2b8' :
+                                     service.iconClass === 'bg-success' ? '#28a745' :
+                                     service.iconClass === 'bg-warning' ? '#ffc107' :
+                                     service.iconClass === 'bg-danger' ? '#dc3545' :
+                                     '#6c757d'
+                    }}
+                  >
+                    {service.icon}
+                  </div>
+                  <h4 className="service-title text-center mb-3" style={{ 
+                    fontSize: '1rem', 
+                    fontWeight: '600',
+                    color: '#FF8FA3',
+                    lineHeight: '1.3'
+                  }}>
+                    {service.title}
+                  </h4>
+                  <button
+                    className="btn btn-link"
+                    style={{
+                      textDecoration: 'none',
+                      color: '#FF8FA3',
+                      fontWeight: '500',
+                      fontSize: '0.9rem',
+                      padding: '0',
+                      border: 'none',
+                      background: 'none'
+                    }}
+                    onClick={() => setOpenModal(idx)}
+                  >
+                    Learn More
+                  </button>
+                </div>
+              </div>
+            ))}
+>>>>>>> 1c29db8 (keok 2)
           </div>
         </div>
         {/* Render modal ONCE at the end of the section */}

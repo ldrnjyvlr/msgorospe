@@ -272,11 +272,10 @@ const NeuropsychologicalTests = ({ user, userRole }) => {
                   <thead>
                     <tr>
                       <th>Patient Name</th>
+                      <th>Age</th>
+                      <th>Sex</th>
+                      <th>Purpose</th>
                       <th>Date Created</th>
-                      <th>Psychometrician</th>
-                      <th>Psychologist</th>
-                      <th>MMSE Score</th>
-                      <th>CFIT IQ</th>
                       <th>Actions</th>
                     </tr>
                   </thead>
@@ -285,31 +284,10 @@ const NeuropsychologicalTests = ({ user, userRole }) => {
                       filteredTests.map((test) => (
                         <tr key={test.id}>
                           <td>{test.patient_name}</td>
+                          <td>{test.patient?.age || 'N/A'}</td>
+                          <td>{test.patient?.sex || 'N/A'}</td>
+                          <td>{test.patient?.purpose_of_examination || 'N/A'}</td>
                           <td>{new Date(test.created_at).toLocaleDateString()}</td>
-                          <td>{test.psychometrician_name}</td>
-                          <td>{test.psychologist_name}</td>
-                          <td>
-                            {test.mental_status_exam ? (
-                              <span className="badge bg-info">
-                                {calculateMMSETotal(test.mental_status_exam)}/31
-                              </span>
-                            ) : test.mmse_results ? (
-                              <span className="badge bg-info">
-                                {Object.values(test.mmse_results).reduce((sum, val) => sum + parseInt(val || 0), 0)}/30
-                              </span>
-                            ) : (
-                              <span className="badge bg-secondary">N/A</span>
-                            )}
-                          </td>
-                          <td>
-                            {test.cfit_results?.iq_equivalent ? (
-                              <span className="badge bg-primary">
-                                {test.cfit_results.iq_equivalent}
-                              </span>
-                            ) : (
-                              <span className="badge bg-secondary">N/A</span>
-                            )}
-                          </td>
                           <td>
                             <div className="d-flex">
                               <button 
@@ -344,7 +322,7 @@ const NeuropsychologicalTests = ({ user, userRole }) => {
                       ))
                     ) : (
                       <tr>
-                        <td colSpan="7" className="text-center">
+                        <td colSpan="6" className="text-center">
                           No neuropsychological tests found. Add a new test to get started.
                         </td>
                       </tr>
